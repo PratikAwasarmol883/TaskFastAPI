@@ -62,10 +62,22 @@ async def update_task(request_task: RequestTask, task_id: int, db: Session = Dep
 
 
 @router.delete("/task/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_task(task_id:int, db: Session = Depends(get_db)):
+async def delete_task(task_id: int, db: Session = Depends(get_db)):
     task_model = db.query(Task).filter(Task.id == task_id).first()
     if task_model is None:
         raise HTTPException(status_code=404, detail="Task id not found.")
     db.query(Task).filter(Task.id == task_id).delete()
     db.commit()
     return {"message": "Task updated successfully"}
+
+
+# Define a root endpoint
+@router.get("/")
+async def read_root():
+    return {"message": "Welcome to the Task API"}
+
+
+# Handle favicon.ico request
+@router.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return {"message": "No favicon"}
