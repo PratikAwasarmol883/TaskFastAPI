@@ -1,1 +1,15 @@
-/ven/
+# Virtual env
+.venv/
+venv/
+.venv312/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Tooling
+.python-version
+.pytest_cache/
+.mypy_cache/
