@@ -61,14 +61,14 @@ async def update_task(request_task: RequestTask, task_id: int, db: Session = Dep
     return {"message": "Task updated successfully"}
 
 
-@router.delete("/task/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{task_id}", status_code=status.HTTP_200_OK)
 async def delete_task(task_id: int, db: Session = Depends(get_db)):
     task_model = db.query(Task).filter(Task.id == task_id).first()
     if task_model is None:
         raise HTTPException(status_code=404, detail="Task id not found.")
-    db.query(Task).filter(Task.id == task_id).delete()
+    db.delete(task_model)
     db.commit()
-    return {"message": "Task updated successfully"}
+    return {"message": "Task deleted successfully"}
 
 
 # Define a root endpoint
